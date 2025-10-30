@@ -1,5 +1,6 @@
 import Expenses from '../models/expenses.model.js';
 import Project from '../models/project.model.js';
+import { sendEmail } from '../lib/resend.js';
 
 export const getExpensesByProject = async (req, res) => {
     const { projectId } = req.params;
@@ -28,6 +29,11 @@ export const addExpense = async (req, res) => {
 
         project.totalExpenses += amount;
         project.isOverBudget = project.totalExpenses > project.budget;
+
+        if(project.isOverBudget) {
+            sendEmail(project.name, project.budget, project.totalExpenses);
+        }
+
         await project.save();
         res.status(201).json({ ok: true, data: expense });
     } catch (error) {
@@ -43,11 +49,17 @@ export const deleteExpense = async (req, res) => {
             return res.status(404).json({ ok: false, error: 'Expense not found' });
         }
         const project = await Project.findById(expense.projectId);
-        if (project) {
-            project.totalExpenses -= expense.amount;
-            project.isOverBudget = project.totalExpenses > project.budget;
-            await project.save();
+        if (!project) {
+            return res.status(404).json({ ok: false, error: 'Associated project not found' });
         }
+        project.totalExpenses -= expense.amount;
+        project.isOverBudget = project.totalExpenses > project.budget;
+
+        if(project.isOverBudget) {
+            sendEmail(project.name, project.budget, project.totalExpenses);
+        }
+
+        await project.save();
         res.status(200).json({ ok: true, data: 'Expense deleted successfully' });
     } catch (error) {
         res.status(500).json({ ok: false, error: error.message });

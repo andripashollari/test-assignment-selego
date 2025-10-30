@@ -1,4 +1,6 @@
+import { sendEmail } from '../lib/resend.js';
 import Project from '../models/project.model.js';
+import { sendEmail } from '../lib/resend.js';
 
 export const createProject = async (req, res) => {
     const { name, budget } = req.body;
@@ -67,6 +69,10 @@ export const updateProject = async (req, res) => {
         if (budget !== undefined) {
             project.budget = budget;
             project.isOverBudget = project.totalExpenses > budget;
+        }
+
+        if(project.isOverBudget) {
+            sendEmail(project.name, project.budget, project.totalExpenses);
         }
 
         await project.save();
