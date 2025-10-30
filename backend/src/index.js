@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import { connectDB } from './lib/db.js';
 import dotenv from 'dotenv';
-import projectRoutes from './routes/project.routes.js';
-import expenseRoutes from './routes/expense.routes.js';
+import projectRoutes from './routes/project.route.js';
+import expenseRoutes from './routes/expenses.route.js';
 
 dotenv.config();
 

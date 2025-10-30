@@ -18,4 +18,26 @@ export const createProject = async (req, res) => {
     } catch (error) {
         res.status(500).json({ ok: false, error: error.message });
     }
-}
+};
+
+export const getProjects = async (req, res) => {
+    try {
+        const projects = await Project.find();
+        res.status(200).json({ ok: true, data: projects });
+    } catch (error) {
+        res.status(500).json({ ok: false, error: error.message });
+    }
+};
+
+export const deleteProject = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const project = await Project.findByIdAndDelete(id);
+        if (!project) {
+            return res.status(404).json({ ok: false, error: 'Project not found' });
+        }
+        res.status(200).json({ ok: true, data: 'Project deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ ok: false, error: error.message });
+    }
+};
