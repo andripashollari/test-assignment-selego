@@ -4,6 +4,7 @@ import { connectDB } from './lib/db.js';
 import dotenv from 'dotenv';
 import projectRoutes from './routes/project.route.js';
 import expenseRoutes from './routes/expenses.route.js';
+import { sendEmail } from './lib/resend.js';
 
 dotenv.config();
 
@@ -17,6 +18,8 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/expenses', expenseRoutes);
 
 app.listen(PORT, () => {
+
   console.log(`Server is running on http://localhost:${PORT}`);
   connectDB();
+  sendEmail();
 });
