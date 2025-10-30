@@ -1,6 +1,5 @@
 import { sendEmail } from '../lib/resend.js';
 import Project from '../models/project.model.js';
-import { sendEmail } from '../lib/resend.js';
 
 export const createProject = async (req, res) => {
     const { name, budget } = req.body;

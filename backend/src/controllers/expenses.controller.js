@@ -1,6 +1,5 @@
 import Expenses from '../models/expenses.model.js';
 import Project from '../models/project.model.js';
-import { sendEmail } from '../lib/resend.js';
 import { categorizeExpense } from '../lib/openai.js';
 
 export const getExpensesByProject = async (req, res) => {
