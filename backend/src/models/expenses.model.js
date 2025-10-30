@@ -7,4 +7,4 @@ const expenseSchema = new mongoose.Schema({
     category: { type: String, default: 'uncategorized' }
 }, { timestamps: true });
 
-export default mongoose.model('Expense', expenseSchema);
+export default mongoose.model('Expenses', expenseSchema);
