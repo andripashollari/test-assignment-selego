@@ -65,3 +65,23 @@ export const updateProject = async ({ id, name, budget }) => {
   if (!res.ok) throw new Error(data.error || "Failed to update project");
   return data.data;
 };
+
+export const createExpense = async ({ projectId, title, amount, category }) => {
+  const res = await fetch(`${BASE_URL}/expenses`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ projectId, title, amount }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Failed to create expense");
+  return data.data;
+};
+
+export const deleteExpense = async (projectId, expenseId) => {
+  const res = await fetch(`${BASE_URL}/expenses/${expenseId}`, {
+    method: "DELETE",
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Failed to delete expense");
+  return data.data;
+};

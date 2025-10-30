@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { createProject } from "../api/api";
 
-export default function ProjectForm({ onCreate }) {
+export default function ProjectForm() {
   const [name, setName] = useState("");
   const [budget, setBudget] = useState("");
 
@@ -15,12 +16,12 @@ export default function ProjectForm({ onCreate }) {
 
     try {
 
-      await onCreate({ name, budget: Number(budget) });
+      await createProject({ name, budget: Number(budget) });
       toast.success("Project added successfully!");
 
       setName("");
       setBudget("");
-      
+
     } catch (error) {
       toast.error("Failed to add project");
       console.error(error);

@@ -22,20 +22,10 @@ export default function Home() {
     loadProjects();
   }, []);
 
-  const handleAddProject = async (project) => {
-    try {
-      const savedProject = await createProject(project);
-      setProjects([...projects, savedProject]);
-      toast.success("Project added successfully!");
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
   return (
     <div className="container my-4">
       <h1 className="mb-4">Budget Tracker</h1>
-      <ProjectForm onAdd={handleAddProject} />
+      <ProjectForm />
       <ProjectList projects={projects} onClickProject={(id) => navigate(`/${id}`)} onRefresh={loadProjects} />
 
     </div>
