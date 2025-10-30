@@ -1,6 +1,7 @@
 import Expenses from '../models/expenses.model.js';
 import Project from '../models/project.model.js';
 import { sendEmail } from '../lib/resend.js';
+import { categorizeExpense } from '../lib/openai.js';
 
 export const getExpensesByProject = async (req, res) => {
     const { projectId } = req.params;
@@ -25,6 +26,7 @@ export const addExpense = async (req, res) => {
         }
 
         const expense = new Expenses({ projectId, title, amount });
+        expense.category = await categorizeExpense(expense.title);
         await expense.save();
 
         project.totalExpenses += amount;
